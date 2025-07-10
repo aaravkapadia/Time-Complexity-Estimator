@@ -33,7 +33,7 @@ class QuadraticModel:
         return self.quad_model(n_fit, a, b)
 
     def plot(self):
-        n_fit = np.linspace(min(self.n_data), max(self.n_data), 100)  
+        n_fit = np.linspace(min(self.n_data), max(self.n_data), 100)
         y_fit = self.predict(n_fit)
         plt.scatter(self.n_data, self.y_data, label="Data Points", color="blue")
         plt.plot(n_fit, y_fit, label=f"Fitted Model: {self.params[0]:.2f} * n^2 + {self.params[1]:.2f}", color="red")

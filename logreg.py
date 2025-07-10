@@ -11,7 +11,7 @@ class LogModel:
         self.mse = None
         self.a = None
         self.b = None
-        
+
     def log_model(self, n, a, b):
         return a * np.log(n) + b
 
@@ -26,6 +26,7 @@ class LogModel:
         print(f"R-squared: {self.r2:.4f}")
         print(f"MSE: {self.mse:.4f}")
         return self.r2, self.mse
+
 
     def predict(self, n_fit):
         return self.log_model(n_fit, self.a, self.b)

@@ -11,7 +11,7 @@ class LinearModel:
         self.mse = None
         self.a = None
         self.b = None
-        
+
     def lin_model(self, n, a, b):
         return a * n + b
 
