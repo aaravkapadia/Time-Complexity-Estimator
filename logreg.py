@@ -1,0 +1,59 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+from sklearn.metrics import r2_score, mean_squared_error
+
+class LogModel:
+    def __init__(self, n_data, y_data):
+        self.n_data = n_data
+        self.y_data = y_data
+        self.r2 = None
+        self.mse = None
+        self.a = None
+        self.b = None
+
+    #Model Definition(Fits it to tis equation)
+    def log_model(self, n, a, b):
+        return a * np.log(n) + b
+
+
+    def fit(self):
+        #sci-pi curve fit
+        params, _ = curve_fit(self.log_model, self.n_data, self.y_data, p0=[1, 1])
+        #fitted parameters
+        self.a, self.b = params 
+        print(f"Fitted parameters: a = {self.a:.4f}, b = {self.b:.4f}")
+
+        #Predicted value
+        y_pred = self.log_model(self.n_data, self.a, self.b)
+
+        #R-Squared
+        self.r2 = r2_score(self.y_data, y_pred)
+
+        #MSE
+        self.mse = mean_squared_error(self.y_data, y_pred)
+
+        print(f"R-squared: {self.r2:.4f}")
+        print(f"MSE: {self.mse:.4f}")
+        return self.r2, self.mse
+
+    #Predicted value(if needed)
+    def predict(self, n_fit):
+        return self.log_model(n_fit, self.a, self.b)
+
+    #Plots
+    def plot(self):
+        #Smooth curve
+        n_fit = np.linspace(min(self.n_data), max(self.n_data), 100)  #data range
+        y_fit = self.predict(n_fit)
+
+        #data vs fitted model
+        plt.scatter(self.n_data, self.y_data, label="Data Points", color="blue")
+        plt.plot(n_fit, y_fit, label=f"Fitted Model: {self.a:.2f} * log(n) + {self.b:.2f}", color="red")
+        plt.xlabel("n")
+        plt.ylabel("y")
+        plt.legend()
+        plt.title("Fitting a (log n) Model")
+        plt.show()
+
+
